@@ -1,7 +1,7 @@
 #####################################
 # Define Project-Wide Settings
 #####################################
-cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
 
 # Define the project name and language
 project(Crow
@@ -94,19 +94,17 @@ if(CROW_BUILD_EXAMPLES)
 endif()
 
 # Tests
-if(NOT MSVC AND CROW_BUILD_TESTS)
+if(CROW_BUILD_TESTS)
 	if(NOT "compression" IN_LIST CROW_FEATURES)
 		message(STATUS "Compression tests are omitted. (Configure with CROW_FEATURES containing 'compression' to enable them)")
 	endif()
 	if(NOT "ssl" IN_LIST CROW_FEATURES)
 		message(STATUS "SSL tests are omitted. (Configure with CROW_FEATURES containing 'ssl' to enable them)")
-	else()
-		add_test(NAME ssl_test COMMAND ${CMAKE_CURRENT_BINARY_DIR}/tests/ssl/ssltest)
 	endif()
 
 	add_subdirectory(tests)
 	enable_testing()
-	add_test(NAME crow_test COMMAND ${CMAKE_CURRENT_BINARY_DIR}/tests/unittest)
+	add_test(NAME crow_test COMMAND ${CMAKE_CURRENT_BINARY_DIR}/tests/unittest/unittest)
 	add_test(NAME template_test COMMAND ${CMAKE_CURRENT_BINARY_DIR}/tests/template/test.py WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests/template)
 endif()
 
